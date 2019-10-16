@@ -1,0 +1,21 @@
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: ratings-viewer
+  namespace: bookinfo-lab
+spec:
+  rules:
+  - services: ["ratings.bookinfo-lab.svc.cluster.local"]
+    methods: ["GET"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-ratings
+  namespace: bookinfo-lab
+spec:
+  subjects:
+  - user: "cluster.local/ns/bookinfo-lab/sa/bookinfo-reviews"
+  roleRef:
+    kind: ServiceRole
+    name: "ratings-viewer"
